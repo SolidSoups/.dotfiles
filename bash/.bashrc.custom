@@ -5,6 +5,7 @@ echo "Hello World from ~/.dotfiles/.bashrc.custom!"
 
 # Aliases
 alias ll='ls -lah'
+alias tt='tree -L 1 -a'
 alias gs='git status'
 alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
