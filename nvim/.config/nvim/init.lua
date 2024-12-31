@@ -1,6 +1,5 @@
-require("config.options")
-require("config.lazy")
-require("config.keymaps")
+require("elias.core")
+require("elias.lazy")
 
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])

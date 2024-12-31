@@ -29,7 +29,7 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
   spec = {
     -- import your plugins
-    {import = "plugins"},
+    {import = "elias.plugins"},
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -137,4 +137,20 @@ require("mason-lspconfig").setup_handlers({
 			},
 		})
 	end,
+})
+
+
+-- highlight text yank
+local augroup = vim.api.nvim_create_augroup
+local yank_group = augroup('HighlightedYank', {})
+local autocmd = vim.api.nvim_create_autocmd
+autocmd('TextYankPost', {
+  group = yank_group,
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = 'IncSearch',
+      timeout = 80,
+    })
+  end,
 })
