@@ -1,7 +1,5 @@
 local opt = vim.opt
 
-
-
 opt.nu = true
 opt.relativenumber = true
 
@@ -28,4 +26,27 @@ opt.scrolloff = 8
 opt.signcolumn = "yes"
 opt.isfname:append("@-@")
 
+
+
+
 opt.updatetime = 50
+opt.colorcolumn = "80"
+
+-- which key
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+vim.o.mouse = ''
+
+vim.cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
+
+if vim.fn.has('wsl') == 1 then
+  vim.g.clipboard = {
+    name = 'WslClipboard',
+    copy = {
+      ['+'] = 'clip.exe',
+    },
+    paste = {
+      ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("´r", ""))'
+    },
+  }
+end

@@ -35,10 +35,30 @@ local function search_vimrc()
   })
 end
 
-vim.keymap.set("n", "<leader>vrc", search_vimrc, vim.tbl_extend("force", opts, { desc = "Search NVIM config files" }))
-vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, vim.tbl_extend("force", opts, { desc = "Find files" }))
-vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, vim.tbl_extend("force", opts, { desc = "Find Git files" }))
-vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, vim.tbl_extend("force", opts, { desc = "List open buffers" }))
-vim.keymap.set("n", "<C-g>", require("telescope.builtin").live_grep, vim.tbl_extend("force", opts, { desc = "Live grep search" }))
-vim.keymap.set("n", "<leader>hh", require("telescope.builtin").quickfixhistory, vim.tbl_extend("force", opts, { desc = "Show quickfix history" }))
-vim.keymap.set("n", "<leader>ht", require("telescope.builtin").help_tags, vim.tbl_extend("force", opts, { desc = "Search help tags" }))
+local function search_dotfiles()
+  require("telescope.builtin").find_files({
+    prompt_title = "< .dotfiles >",
+    cwd = vim.fn.expand("~/.dotfiles"),
+    hidden = true,
+    file_ignore_patterns = { "%.git/", "%.stow%-local%-ignore", ".gitignore" },
+  })
+end
+
+local function extend_opts(desc)
+  return vim.tbl_extend("force", opts, { desc = desc })
+end
+
+vim.keymap.set("n", "<leader>vrc", search_vimrc, extend_opts("Search NVIM config files"))
+vim.keymap.set("n", "<leader>vrd", search_dotfiles, extend_opts("Search .dotfiles"))
+
+vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, extend_opts("Find files"))
+vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, extend_opts("Find Git files"))
+vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, extend_opts("List open buffers"))
+vim.keymap.set("n", "<C-g>", require("telescope.builtin").live_grep, extend_opts("Live grep search"))
+vim.keymap.set("n", "<leader>hh", require("telescope.builtin").quickfixhistory, extend_opts("Show quickfix history"))
+vim.keymap.set("n", "<leader>ht", require("telescope.builtin").help_tags, extend_opts("Search help tags"))
+
+require("which-key").add({
+  { "<leader>v", group = "Search files"},
+  { "<leader>vr", group = "Search files"},
+})

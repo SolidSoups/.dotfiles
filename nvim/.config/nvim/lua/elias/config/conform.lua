@@ -22,4 +22,4 @@ vim.keymap.set({ "n", "v" }, "<leader>f", function()
     async = false,
     timeout_ms = 5000,
   })
-end)
+end, { desc = "Conform file/selection"})
