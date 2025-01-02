@@ -55,10 +55,13 @@ vim.keymap.set("n", "<C-f>", require("telescope.builtin").find_files, extend_opt
 vim.keymap.set("n", "<C-p>", require("telescope.builtin").git_files, extend_opts("Find Git files"))
 vim.keymap.set("n", "<C-b>", require("telescope.builtin").buffers, extend_opts("List open buffers"))
 vim.keymap.set("n", "<C-g>", require("telescope.builtin").live_grep, extend_opts("Live grep search"))
+
 vim.keymap.set("n", "<leader>hh", require("telescope.builtin").quickfixhistory, extend_opts("Show quickfix history"))
 vim.keymap.set("n", "<leader>ht", require("telescope.builtin").help_tags, extend_opts("Search help tags"))
 
 require("which-key").add({
   { "<leader>v", group = "Search files"},
   { "<leader>vr", group = "Search files"},
+
+  { "<leader>h", group = "Help"}
 })
