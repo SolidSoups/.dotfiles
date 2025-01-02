@@ -7,10 +7,14 @@ echo "Hello World from ~/.dotfiles/.bashrc.custom!"
 alias ll='ls -lah'
 alias tt='tree -L 1 -a'
 alias gs='git status'
+
+alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
+alias cdf='cd $(fzf -m --preview="bat --color=always {}")'
+
 alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
 alias godot="cd ~/.dotfiles && nvim ."
-
+alias nconf="cd ~/.config/nvim && nvim ."
 
 # Environment variables
 export EDITOR="nvim"
@@ -29,3 +33,8 @@ export PATH="/usr/bin/dotnet:$PATH"
 # oh-my-posh
 eval "$(oh-my-posh init bash --config $(brew --prefix oh-my-posh)/themes/pure.omp.json)"
 
+# zoxide
+eval "$(zoxide init --cmd cd bash)"
+
+# fzf
+eval "$(fzf --bash)"
