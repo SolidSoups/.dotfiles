@@ -9,6 +9,7 @@ alias tt='tree -L 1 -a'
 alias gs='git status'
 alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
+alias godot="cd ~/.dotfiles && nvim ."
 
 
 # Environment variables
