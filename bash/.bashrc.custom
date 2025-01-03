@@ -9,17 +9,19 @@ alias tt='tree -L 1 -a'
 alias gs='git status'
 
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
-alias cdf='cd $(fzf -m --preview="bat --color=always {}")'
+#alias cdf='cd $(fzf -m --preview="bat --color=always {}")'
 
 alias python="$(pyenv which python)"
 alias pip="$(pyenv which pip)"
-alias godot="cd ~/.dotfiles && nvim ."
-alias nconf="cd ~/.config/nvim && nvim ."
 
 # Environment variables
 export EDITOR="nvim"
 export BROWSER="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
-export DISPLAY=0
+
+# Enable x-server
+# export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
+# export DISPLAY="`sed -n 's/nameserver //p' /etc/resolv.conf`:0"
+export DISPLAY=$(ip route|awk '/^default/{print $3}'):0.0
 
 export PATH="$HOME/bin:$PATH"
 
@@ -38,3 +40,8 @@ eval "$(zoxide init --cmd cd bash)"
 
 # fzf
 eval "$(fzf --bash)"
+
+# tmux on start
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [ -z "$TMUX" ]; then
+#   exec tmux && tmux source ~/.config/tmux/tmux.conf
+# fi
