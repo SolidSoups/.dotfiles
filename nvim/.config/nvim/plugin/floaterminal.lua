@@ -32,7 +32,7 @@ local function create_floating_window(opts)
     col = col,
     row = row,
     style = "minimal", -- Use minimal style to avoid borders, etc.
-    border = "double",
+    border = "rounded",
   }
 
   local win = vim.api.nvim_open_win(buf, true, win_config)

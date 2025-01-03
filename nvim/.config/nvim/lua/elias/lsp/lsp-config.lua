@@ -64,7 +64,8 @@ local rounded_border_handlers = {
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+--capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 require("mason-lspconfig").setup_handlers({
   function(server_name)
@@ -78,17 +79,28 @@ require("mason-lspconfig").setup_handlers({
     require("lspconfig")["omnisharp"].setup({
       on_attach = on_attach,
       capabilities = capabilities,
+      cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
       root_dir = function(fname)
         local lspconfig = require("lspconfig")
         local primary = lspconfig.util.root_pattern("*.sln")(fname)
         local fallback = lspconfig.util.root_pattern("*.csproj")(fname)
         return primary or fallback
       end,
-      analyze_open_documents_only = true,
+
+      analyze_open_documents_only = false,
+      enable_roslyn_analysers = true,
+      enable_import_completion = true,
+      enable_decompilation_support = true,
+      enable_editorconfig_support = true,
       organize_imports_on_format = true,
+
+
       handlers = vim.tbl_extend("force", rounded_border_handlers, {
         ["textDocument/definition"] = require("omnisharp_extended").handler,
       }),
+      filetypes = {
+        "cs", "vb", "csproj", "sln", "slnx", "props", "csx", "targets"
+      },
     })
   end,
   ["lua_ls"] = function()

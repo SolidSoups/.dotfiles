@@ -2,6 +2,8 @@ require("lualine").setup({
   options = {
     theme = "gruvbox",
     globalstatus = true,
+    section_separators = "",
+    component_seperators = "",
   },
   sections = {
     lualine_a = { "mode" },
@@ -13,9 +15,9 @@ require("lualine").setup({
         shortening_target = 70,
       },
     },
-    lualine_x = { "encoding", "fileformat", "filetype" },
+    lualine_x = { "encoding", "filetype" },
     lualine_y = { "progress" },
-    lualine_z = { "location" },
+    lualine_z = { "" },
   },
   tabline = {
     lualine_a = {

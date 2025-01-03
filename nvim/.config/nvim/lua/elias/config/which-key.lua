@@ -40,16 +40,22 @@ require("which-key").setup({
 })
 
 -- keymaps
-require("which-key").add({
-  mode = { "n" },
+require("which-key").add(
+  {
+    mode = { "n" },
 
-  -- Neotree
-  { "<leader>p",         group = "Toggle Neotree" },
-  { "<leader>pv",        desc = "Toggle Neotree" },
+    -- Neotree
+    { "<leader>p",         group = "Toggle Neotree" },
+    { "<leader>pv",        desc = "Toggle Neotree" },
 
-  -- config editing
-  { "<leader><leader>",  group = "Source file" },
-  { "<leader><leader>x", "<cmd>source %<CR>",     desc = "Source file" },
+    -- config editing
+    { "<leader>x",         ":.lua<CR>",             desc = "Source current line" },
+    { "<leader><leader>",  group = "Source file" },
+    { "<leader><leader>x", "<cmd>source %<CR>",     desc = "Source file" },
 
-  { "<leader>s",         group = "Split" }
-})
+    { "<leader>s",         group = "Split" }
+  },
+  {
+    mode = { "v" },
+    { "<leader>x",         ":lua<CR>",              desc = "Source selected lines" },
+  })

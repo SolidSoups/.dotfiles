@@ -3,7 +3,11 @@ local keymap = vim.keymap
 
 -- config editing
 keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Source file' })
--- defaults
+keymap.set('n', '<leader>x', ':.lua<CR>', { desc = 'Lua Source Current Line'})
+keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Lua Source Selected Lines'})
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down"})
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up"})
 
 
 

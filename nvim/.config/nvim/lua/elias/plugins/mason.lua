@@ -4,6 +4,7 @@ return {
     "Hoffs/omnisharp-extended-lsp.nvim",
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
+    "saghen/blink.cmp",
     {
       "folke/lazydev.nvim",
       ft = "lua",
