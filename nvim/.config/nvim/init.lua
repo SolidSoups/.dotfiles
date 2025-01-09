@@ -4,7 +4,7 @@ require("nvim-web-devicons").setup({})
 require("elias.lsp")
 
 vim.o.background = "dark" -- or "light" for light mode
-vim.cmd([[colorscheme nordic]])
+vim.cmd([[colorscheme everforest]])
 
 polish = function()
 	require("notify").setup({

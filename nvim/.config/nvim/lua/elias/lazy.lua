@@ -40,3 +40,4 @@ require("lazy").setup({
 })
 
 
+require("elias.custom")

@@ -123,8 +123,13 @@ require("mason-lspconfig").setup_handlers({
             globals = { "vim" },
           },
           workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
+            library = {
+              vim.api.nvim_get_runtime_file("", true),
+              "${3rd}/love2d/library",
+            },
             checkThirdParty = false,
+            maxPreload = 100000,
+            preloadFileSize = 10000,
           },
           telemetry = {
             enable = false,

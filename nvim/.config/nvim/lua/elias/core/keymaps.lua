@@ -1,5 +1,11 @@
+--require("elias.custom.floaterminal")
 vim.g.mapleader = " "
 local keymap = vim.keymap
+
+
+keymap.set("n", "<leader>pv", ":Neotree toggle<CR>", { desc = "Toggle neotree"})
+
+keymap.set("n", "<leader>j", "*``cgn", { desc = "Search & Replace under cursor"})
 
 -- config editing
 keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Source file' })
@@ -8,8 +14,6 @@ keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Lua Source Selected Lines'})
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down"})
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up"})
-
-
 
 -- Esc for Ctrl-C
 vim.keymap.set("i", "<C-c>", "<Esc>")

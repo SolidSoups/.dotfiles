@@ -50,7 +50,7 @@ require("which-key").add(
 
     -- config editing
     { "<leader>x",         ":.lua<CR>",             desc = "Source current line" },
-    { "<leader><leader>",  group = "Source file" },
+    { "<leader><leader>",  group = "Terminal actions" },
     { "<leader><leader>x", "<cmd>source %<CR>",     desc = "Source file" },
 
     { "<leader>s",         group = "Split" }

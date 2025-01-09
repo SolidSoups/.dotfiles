@@ -14,6 +14,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
   end,
 })
 
+opt.mouse = "a"
+
 opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
@@ -46,7 +48,6 @@ opt.colorcolumn = "80"
 -- which key
 vim.o.timeout = true
 vim.o.timeoutlen = 300
-vim.o.mouse = ''
 
 vim.cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
 

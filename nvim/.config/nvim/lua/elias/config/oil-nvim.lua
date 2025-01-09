@@ -17,13 +17,13 @@ require("oil").setup {
       return vim.tbl_contains(folder_skip, name) or name == '..' or name == '.git'
     end,
   },
-  --keymaps = {
-  --  ["<C-h>"] = false,
-  --  ["<C-l>"] = false,
-  --  ["<C-k>"] = false,
-  --  ["<C-j>"] = false,
-  --  ["<M-h>"] = "actions.select_split",
-  --},
+  keymaps = {
+   ["<C-h>"] = false,
+   ["<C-l>"] = false,
+   ["<C-k>"] = false,
+   ["<C-j>"] = false,
+   ["<M-h>"] = "actions.select_split",
+  },
   win_options = {
     wrap = true,
     winbar = "%{v:lua.CustomOilBar()}",

@@ -32,7 +32,7 @@ local function create_floating_window(opts)
     col = col,
     row = row,
     style = "minimal", -- Use minimal style to avoid borders, etc.
-    border = "rounded",
+    border = "double",
   }
 
   local win = vim.api.nvim_open_win(buf, true, win_config)
@@ -40,7 +40,7 @@ local function create_floating_window(opts)
   return { buf = buf, win = win }
 end
 
-local toggle_terminal = function()
+local toggle_terminal = function(cmd)
   if not vim.api.nvim_win_is_valid(state.floating.win) then
     state.floating = create_floating_window { buf = state.floating.buf }
     if vim.bo[state.floating.buf].buftype ~= "terminal" then
@@ -49,6 +49,13 @@ local toggle_terminal = function()
 
     -- Enter terminal mode and then insert mode
     vim.api.nvim_set_current_win(state.floating.win)
+
+    -- If a command is provided, send it to the terminal
+    if cmd then
+      vim.api.nvim_chan_send(vim.b[state.floating.buf].terminal_job_id, cmd .. "\n")
+    end
+
+    -- Start insert mode
     vim.cmd("startinsert")
   else
     vim.api.nvim_win_hide(state.floating.win)
@@ -56,8 +63,16 @@ local toggle_terminal = function()
 end
 
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
-vim.keymap.set({"n", "t"}, "<leader>tt", toggle_terminal, { desc = "Toggle Terminal"})
+vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal, { desc = "Toggle Terminal" })
+vim.keymap.set("n", "<leader><leader>c", function ()
+  toggle_terminal("love .")
+  toggle_terminal()
+  vim.cmd("stopinsert")
+end, { desc = "Build löve in cwd"})
+vim.keymap.set("n", "<leader><leader>l", function()
+  toggle_terminal("love .")
+end, { desc = "Build löve in cwd with terminal open" })
 
 require("which-key").add({
-  { "<leader>t", group = "Toggle Terminal"}
+  { "<leader>t", group = "Toggle terminal" }
 })

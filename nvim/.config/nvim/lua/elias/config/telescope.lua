@@ -6,10 +6,10 @@ telescope.setup({
   defaults = {
     layout_config = {
       horizontal = {
-        preview_cutoff = 0,
+        preview_cutoff = 1,
       },
     },
-    layout_strategy = "vertical",
+    layout_strategy = "flex",
     path_display = { "truncate" },
     mappings = {
       i = {

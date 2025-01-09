@@ -4,7 +4,7 @@ return {
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "nvim-telescope/telescope-ui-select.nvim",
-		"natecraddock/telescope-zf-native.nvim",
+    "natecraddock/telescope-zf-native.nvim",
     "nvim-lua/plenary.nvim",
   },
   config = function()

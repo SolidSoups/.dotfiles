@@ -2,14 +2,22 @@ local border = 'solid'
 
 require("blink.cmp").setup({
   sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
+    default = { "lsp", "luasnip", "path", "snippets", "buffer" },
     providers = {
+      luasnip = {
+        name = "luasnip",
+        enabled = true,
+        module = "blink.cmp.sources.luasnip",
+        min_keyword_length = 2,
+        score_offset = 20,
+      },
       snippets = {
-        min_keyword_length = 1,
-        score_offset = -1,
+        min_keyword_length = 2,
+        score_offset = 5,
       },
       path = {
         opts = { get_cwd = vim.uv.cwd },
+        min_keyword_length = 2,
       },
       buffer = {
         fallbacks = {},
@@ -27,7 +35,7 @@ require("blink.cmp").setup({
       window = {
         border = border
       }
-    }
+    },
   },
   signature = {
     window = {
@@ -45,10 +53,9 @@ require("blink.cmp").setup({
     nerd_font_variant = 'mono'
   },
   keymap = {
-    preset = 'default',
+    preset = 'super-tab',
     ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
     ["<C-e>"] = { "hide" },
-    ["<C-y>"] = { "select_and_accept" },
 
     ["<C-p>"] = { "select_prev", "fallback" },
     ["<C-n>"] = { "select_next", "fallback" },
