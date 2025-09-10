@@ -1,0 +1,59 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "margin-top": 10,
+  "margin-left": 20,
+  "margin-right": 20,
+  // "spacing": 8,
+
+  "include": ["~/.config/waybar/modules.jsonc"],
+
+  "modules-left": [
+    "hyprland/workspaces",
+    // "pulseaudio",
+    "custom/audio"
+  ],
+  "modules-center": [
+    "group/center-group"
+  ],
+  "modules-right": [
+    "group/tray-group",
+    "group/usage-group",
+    "group/power-group"
+  ],
+
+
+  // GROUPS
+
+  "group/center-group": {
+    "orientation": "horizontal",
+    "modules": [
+      "clock#date",
+      "clock#time"
+    ]
+  },
+
+  "group/tray-group": {
+    "orientation": "horizontal",
+    "modules": [
+      "tray"
+    ]
+  },
+
+  "group/usage-group": {
+    "orientation": "horizontal",
+    "modules": [
+      "cpu",
+      "memory",
+      "battery"
+    ]
+  },
+
+  "group/power-group": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/power"
+    ]
+  }
+}

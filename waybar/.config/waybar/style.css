@@ -1,0 +1,103 @@
+
+* {
+    font-family: "JetBrainsMono NF", Roboto, Helvetica,Arial, sans-serif;
+    /* font-weight: bolder; */
+    font-size: 20px;
+
+  /* color: white; */
+}
+
+window#waybar {
+  background: transparent;
+  transition-duration: .5s;
+}
+
+#workspaces,
+#center-group,
+#tray-group,
+#custom-audio,
+#usage-group,
+#power-group {
+  background: black;
+
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(66, 66, 66);
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  margin-right: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+tooltip {
+  background: rgba(10, 34, 46, 200);
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: white;
+}
+
+#usage-group {
+  color: white;
+  background: black;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  font-size: 5;
+}
+#cpu, #memory {
+  margin-right: 30px;
+}
+
+/* LEFT SIDE */
+
+#workspaces {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#workspaces button {
+  color: rgb(100, 95, 95);
+}
+#workspaces button.active {
+  color: white;
+  background: rgb(80, 75, 75);
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  border-radius: 5px;
+}
+
+/* SOUND */
+
+#custom-audio {
+  color: white;
+  min-width: 80px;
+  transition: all 0.3s ease;
+}
+
+/* CENTER */
+#clock.time {
+  margin-left: 15px;
+  margin-right: 10px;
+  color: white;
+}
+#clock.date {
+  margin-left: 10px;
+  margin-right: 15px;
+  color: white;
+}
+
+/* RIGHT SIDE */
+
+#custom-power {
+  color: white;
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+
