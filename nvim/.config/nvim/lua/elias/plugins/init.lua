@@ -5,10 +5,6 @@ return {
 		config = true,
 	},
   {
-    "mason-org/mason.nvim",
-    opts = {},
-  },
-  {
     "justinmk/vim-sneak",
   },
   {
