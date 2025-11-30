@@ -61,20 +61,23 @@ end
 ---@field offsetEncoding? string
 
 return {
-  cmd = { 
+  cmd = {
     'clangd',
-    '--log=verbose',
+    '--log=error',
     '--background-index',
+    '--background-index-priority=low',
     '--header-insertion=iwyu',
     '--completion-style=detailed',
     '--fallback-style=llvm',
-    '--pch-storage=memory',
-    '--limit-results=50',
-    '--compile-commands-dir=${workspaceFolder}/build/',
-    '--limit-references=100',
+    '--pch-storage=disk',
+    '--limit-results=20',
+    '--limit-references=50',
     '--cross-file-rename',
     '--suggest-missing-includes',
     '--all-scopes-completion',
+    '--clang-tidy=false',
+    '--compile-commands-dir=.',
+    '-j=4',
   },
   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
   root_markers = {

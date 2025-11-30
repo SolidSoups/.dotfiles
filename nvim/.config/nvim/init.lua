@@ -1,4 +1,4 @@
--- require("config.globals")
+-- require("
 require("elias.config.options")
 require("elias.config.keymap")
 require("elias.config.autocmd")

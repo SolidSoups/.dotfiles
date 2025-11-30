@@ -13,8 +13,8 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm({ select = true })
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+      elseif luasnip.locally_jumpable(1) then
+        luasnip.jump(1)
       else
         fallback()
       end
@@ -22,7 +22,7 @@ cmp.setup({
 
     -- Shift+Tab jumps backwards in snippets
     ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
+      if luasnip.locally_jumpable(-1) then
         luasnip.jump(-1)
       else
         fallback()
@@ -53,6 +53,7 @@ cmp.setup({
 
   sources = cmp.config.sources({
     { name = 'nvim_lsp', priority = 1000 },  -- LSP completions (highest priority)
+    { name = 'nvim_lsp_signature_help', priority = 900 },  -- Signature help
     { name = 'luasnip', priority = 750 },    -- Snippet completions
     { name = 'buffer', priority = 500 },     -- Buffer word completions
     { name = 'path', priority = 250 },       -- Path completions
@@ -63,7 +64,7 @@ cmp.setup({
   },
 
   experimental = {
-    ghost_text = true,  -- Show preview of completion
+    ghost_text = false,  -- Disabled to prevent view shifting on long completions
   },
 })
 

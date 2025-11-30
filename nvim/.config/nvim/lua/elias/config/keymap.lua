@@ -17,15 +17,17 @@ local opts_desc = function(desc)
   return vim.tbl_extend("force", opts, { desc = desc })
 end
 
+-- rebind quickfix (to free up q)
+keymap.set("n", "cn", ":cnext<CR>", { silent = true, desc = "Quick fix next item"})
+keymap.set("n", "cp", ":cprevious<CR>", { silent = true, desc = "Quick fix previous item"})
+keymap.set("n", "cd", ":cdo s/", { silent = false, desc = "Quick fix begin replace"})
+keymap.set("n", "cc", ":cclose<CR>", { silent = true, desc = "Quick fix close"})
+
 -- Pane and Window Navigation
 keymap.set("n", "<C-h>", [[<Cmd>wincmd h<CR>]], opts) -- Navigation Left
 keymap.set("n", "<C-j>", [[<Cmd>wincmd j<CR>]], opts) -- Navigation Down
 keymap.set("n", "<C-k>", [[<Cmd>wincmd k<CR>]], opts) -- Navigation Up
 keymap.set("n", "<C-l>", [[<Cmd>wincmd l<CR>]], opts) -- Navigation Right
-
--- Quick fix
-keymap.set("n", "qn", "<CMD>cnext<CR>", { silent = true, desc = "Quick fix next item"})
-keymap.set("n", "qp", "<CMD>cprev<CR>", { silent = true, desc = "Quick fix prev item"})
 
 -- tabs
 keymap.set("n", "å", ":tabnext<CR>", { silent = true, desc = "Tab next" })

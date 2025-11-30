@@ -61,7 +61,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- references
     if client:supports_method('textDocument/references') then
-      vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {
+      vim.keymap.set('n', 'grr', require('telescope.builtin').lsp_references, {
         buffer = ev.buf,
         desc = "LSP References",
       })
