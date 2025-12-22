@@ -21,7 +21,7 @@ end
 keymap.set("n", "cn", ":cnext<CR>", { silent = true, desc = "Quick fix next item"})
 keymap.set("n", "cp", ":cprevious<CR>", { silent = true, desc = "Quick fix previous item"})
 keymap.set("n", "cd", ":cdo s/", { silent = false, desc = "Quick fix begin replace"})
-keymap.set("n", "cc", ":cclose<CR>", { silent = true, desc = "Quick fix close"})
+keymap.set("n", "cq", ":cclose<CR>", { silent = true, desc = "Quick fix close"})
 
 -- Pane and Window Navigation
 keymap.set("n", "<C-h>", [[<Cmd>wincmd h<CR>]], opts) -- Navigation Left
@@ -30,8 +30,12 @@ keymap.set("n", "<C-k>", [[<Cmd>wincmd k<CR>]], opts) -- Navigation Up
 keymap.set("n", "<C-l>", [[<Cmd>wincmd l<CR>]], opts) -- Navigation Right
 
 -- tabs
-keymap.set("n", "å", ":tabnext<CR>", { silent = true, desc = "Tab next" })
-keymap.set("n", "Å", ":tabprevious<CR>", { silent = true, desc = "Tab prev" })
+keymap.set("n", "<leader>tn", ":tabnext<CR>", { silent = true, desc = "Tab next" })
+keymap.set("n", "<leader>tp", ":tabprevious<CR>", { silent = true, desc = "Tab previous" })
+keymap.set("n", "<leader>to", ":tabnew<CR>", { silent = true, desc = "Tab open new" })
+keymap.set("n", "<leader>tc", ":tabclose<CR>", { silent = true, desc = "Tab close" })
+keymap.set("n", "<leader>tl", ":tablast<CR>", { silent = true, desc = "Tab last" })
+keymap.set("n", "<leader>tf", ":tabfirst<CR>", { silent = true, desc = "Tab first" })
 
 -- Window Management
 keymap.set("n", "<leader>sv", ":vsplit<CR><C-w>l", { silent = true, desc = "Split Vertically"})
@@ -45,3 +49,8 @@ keymap.set("n", "<A-->", ":res -5<CR>", { desc = "Resize down -5"})
 
 -- chmod
 keymap.set("n", "<leader>cx", ":!chmod +x %<CR>", { desc = "make file executable" })
+
+-- formatting (conform.nvim)
+keymap.set("n", "<leader>lf", function()
+  require("conform").format({ timeout_ms = 500, lsp_fallback = false })
+end, { desc = "Format buffer" })

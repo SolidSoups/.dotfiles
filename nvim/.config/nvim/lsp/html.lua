@@ -27,7 +27,7 @@ return {
   root_markers = { 'package.json', '.git' },
   settings = {},
   init_options = {
-    provideFormatter = true,
+    provideFormatter = false,  -- Disable LSP formatting, use prettier instead
     embeddedLanguages = { css = true, javascript = true },
     configurationSection = { 'html', 'css', 'javascript' },
   },

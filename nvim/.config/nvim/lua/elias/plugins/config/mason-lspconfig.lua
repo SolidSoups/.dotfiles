@@ -23,7 +23,7 @@ vim.lsp.config('*', {
 
 -- Setup mason-lspconfig
 mason_lspconfig.setup({
-  ensure_installed = { 'lua_ls', 'tailwindcss', 'clangd', 'cmake' },
+  ensure_installed = { 'lua_ls', 'tailwindcss', 'html', 'cssls', 'ts_ls', 'eslint', 'emmet_ls', 'clangd', 'cmake' },
   automatic_installation = true,
   -- We handle server configuration manually to support custom configs
 })

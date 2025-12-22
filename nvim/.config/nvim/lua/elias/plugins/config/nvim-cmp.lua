@@ -9,10 +9,10 @@ cmp.setup({
   },
 
   mapping = cmp.mapping.preset.insert({
-    -- Tab accepts/confirms completion
+    -- Tab accepts/confirms completion only if explicitly selected
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.confirm({ select = true })
+        cmp.confirm({ select = false })
       elseif luasnip.locally_jumpable(1) then
         luasnip.jump(1)
       else
@@ -43,6 +43,15 @@ cmp.setup({
     -- Ctrl+Space to manually trigger completion
     ['<C-Space>'] = cmp.mapping.complete(),
 
+    -- Ctrl+S to trigger snippet completion
+    ['<C-s>'] = cmp.mapping.complete({
+      config = {
+        sources = {
+          { name = 'luasnip' }
+        }
+      }
+    }),
+
     -- Ctrl+e to close completion menu
     ['<C-e>'] = cmp.mapping.abort(),
 
@@ -52,11 +61,18 @@ cmp.setup({
   }),
 
   sources = cmp.config.sources({
-    { name = 'nvim_lsp', priority = 1000 },  -- LSP completions (highest priority)
+    {
+      name = 'nvim_lsp',
+      priority = 1000,
+      entry_filter = function(entry, ctx)
+        -- Filter out snippet completions from LSP
+        return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Snippet'
+      end
+    },
     { name = 'nvim_lsp_signature_help', priority = 900 },  -- Signature help
-    { name = 'luasnip', priority = 750 },    -- Snippet completions
     { name = 'buffer', priority = 500 },     -- Buffer word completions
     { name = 'path', priority = 250 },       -- Path completions
+    -- Snippets removed from default sources, use Ctrl+S to trigger
   }),
 
   completion = {
