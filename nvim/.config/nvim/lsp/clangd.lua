@@ -62,48 +62,47 @@ end
 
 return {
   cmd = {
-    'clangd',
-    '--log=error',
-    '--background-index',
-    '--background-index-priority=low',
+    '/usr/bin/clangd',
     '--header-insertion=iwyu',
     '--completion-style=detailed',
     '--fallback-style=llvm',
     '--pch-storage=disk',
+    '--malloc-trim',
     '--limit-results=20',
-    '--limit-references=50',
-    '--cross-file-rename',
-    '--suggest-missing-includes',
-    '--all-scopes-completion',
-    '--clang-tidy=false',
-    '--compile-commands-dir=.',
-    '-j=4',
+    '--limit-references=20',
+    '-j=1',
+    -- NOTE: clang-tidy, background-index, all-scopes-completion, header-insertion-decorators
+    -- are all OFF by default when not specified (which is what we want)
   },
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-  root_markers = {
-    '.clangd',
-    '.clang-tidy',
-    '.clang-format',
-    'compile_commands.json',
-    'compile_flags.txt',
-    'configure.ac', -- AutoTools
-    '.git',
-  },
+  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda'},
+  root_dir = function(fname)
+    return vim.fs.root(fname, {
+      'compile_commands.json',
+      'compile_flags.txt',
+      '.clangd',
+      '.clang-tidy',
+      '.clang-format',
+      'configure.ac',
+      '.git',
+    })
+  end,
   capabilities = {
     textDocument = {
       completion = {
         editsNearCursor = true,
       },
+      -- Ensure proper sync mode to prevent rangeLength mismatches
+      synchronization = {
+        didSave = true,
+        willSave = false,
+        willSaveWaitUntil = false,
+      },
     },
-    offsetEncoding = { 'utf-8', 'utf-16' },
+    -- Use UTF-16 (clangd's default) to prevent buffer desync
+    general = {
+      positionEncodings = { 'utf-16', 'utf-32', 'utf-8' },
+    },
   },
-  ---@param client vim.lsp.Client
-  ---@param init_result ClangdInitializeResult
-  on_init = function(client, init_result)
-    if init_result.offsetEncoding then
-      client.offset_encoding = init_result.offsetEncoding
-    end
-  end,
   on_attach = function(_, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'LspClangdSwitchSourceHeader', function()
       switch_source_header(bufnr)

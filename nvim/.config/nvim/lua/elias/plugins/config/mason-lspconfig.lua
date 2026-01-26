@@ -1,4 +1,6 @@
+vim.env.PYENV_VERSION = '3.13.1'
 local mason_lspconfig = require("mason-lspconfig")
+
 
 -- Add nvim-cmp LSP capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -7,11 +9,19 @@ if has_cmp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
+-- Enable snippet support (required for CSS/HTML language servers)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 -- Function to try loading a custom config from lsp/ directory
 local function load_custom_config(server_name)
-  local ok, custom_config = pcall(require, 'lsp.' .. server_name)
-  if ok then
-    return custom_config
+  -- The lsp/ directory is at config root, not in lua/
+  -- So we use dofile instead of require
+  local config_path = vim.fn.stdpath('config') .. '/lsp/' .. server_name .. '.lua'
+  if vim.fn.filereadable(config_path) == 1 then
+    local ok, custom_config = pcall(dofile, config_path)
+    if ok and custom_config then
+      return custom_config
+    end
   end
   return nil
 end
@@ -23,7 +33,7 @@ vim.lsp.config('*', {
 
 -- Setup mason-lspconfig
 mason_lspconfig.setup({
-  ensure_installed = { 'lua_ls', 'tailwindcss', 'clangd', 'cmake' },
+  ensure_installed = { 'lua_ls', 'tailwindcss', 'clangd', 'cmake', 'ts_ls', 'cssls', 'html', 'bashls', 'basedpyright', 'glsl_analyzer' },
   automatic_installation = true,
   -- We handle server configuration manually to support custom configs
 })
@@ -50,3 +60,28 @@ for _, server_name in ipairs(installed_servers) do
   -- Enable the server (custom config or default from wildcard)
   vim.lsp.enable(server_name)
 end
+
+-- Ensure clangd auto-starts on C++ files (workaround for config issue)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+  callback = function(args)
+    -- Check if clangd is already attached
+    local clients = vim.lsp.get_clients({ bufnr = args.buf, name = 'clangd' })
+    if #clients > 0 then
+      return -- Already attached
+    end
+
+    -- Load clangd config using the same function as above
+    local clangd_config = load_custom_config('clangd')
+    if not clangd_config then
+      return -- No custom config found
+    end
+
+    -- Merge with capabilities and start
+    local config = vim.tbl_deep_extend('force', { bufnr = args.buf }, clangd_config)
+    config.capabilities = vim.tbl_deep_extend('force', capabilities, clangd_config.capabilities or {})
+
+    vim.lsp.start(config)
+  end,
+  desc = 'Auto-start clangd for C/C++ files',
+})

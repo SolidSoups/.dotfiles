@@ -1,7 +1,8 @@
 -- Mason-lspconfig setup is handled in lua/elias/plugins/init.lua
 -- This ensures proper load order
 
-vim.lsp.set_log_level("INFO")
+
+vim.lsp.set_log_level("WARN") -- Reduce log spam (was INFO)
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
@@ -36,12 +37,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     -- formatting
-    if client:supports_method('textDocument/formatting') then
-      vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {
-        buffer = ev.buf,
-        desc = "LSP Language Format",
-      })
-    end
+    -- Always set up formatting keymap, prefer conform.nvim if available
+    vim.keymap.set("n", "<leader>lf", function()
+      local ok, conform = pcall(require, "conform")
+      if ok then
+        conform.format({ bufnr = ev.buf, lsp_fallback = true })
+      elseif client:supports_method('textDocument/formatting') then
+        vim.lsp.buf.format({ bufnr = ev.buf })
+      end
+    end, {
+      buffer = ev.buf,
+      desc = "Format buffer",
+    })
 
     -- code actions
     if client:supports_method('textDocument/codeAction') then
@@ -208,6 +215,9 @@ vim.opt.updatetime = 100
 vim.diagnostic.config({
   update_in_insert = true,
   severity_sort = true,
+  virtual_text = true,  -- Show errors inline
+  signs = true,  -- Show error signs in gutter
+  underline = true,  -- Underline errors
   float = {
     focusable = false,
     style = "minimal",

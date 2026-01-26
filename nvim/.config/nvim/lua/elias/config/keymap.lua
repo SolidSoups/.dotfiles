@@ -18,10 +18,12 @@ local opts_desc = function(desc)
 end
 
 -- rebind quickfix (to free up q)
-keymap.set("n", "cn", ":cnext<CR>", { silent = true, desc = "Quick fix next item"})
-keymap.set("n", "cp", ":cprevious<CR>", { silent = true, desc = "Quick fix previous item"})
-keymap.set("n", "cd", ":cdo s/", { silent = false, desc = "Quick fix begin replace"})
-keymap.set("n", "cc", ":cclose<CR>", { silent = true, desc = "Quick fix close"})
+keymap.set("n", "qn", ":cnext<CR>", { silent = true, desc = "Quick fix next item"})
+keymap.set("n", "qp", ":cprevious<CR>", { silent = true, desc = "Quick fix previous item"})
+keymap.set("n", "qd", ":cdo s/", { silent = false, desc = "Quick fix begin replace"})
+keymap.set("n", "qc", ":cclose<CR>", { silent = true, desc = "Quick fix close"})
+keymap.set("n", "qx", ":cdelete<CR>", { silent = true, desc = "Quick fix remove"})
+keymap.set("n", "qa", ":QFAdd<CR>", { silent = true, desc = "Quick fix add"})
 
 -- Pane and Window Navigation
 keymap.set("n", "<C-h>", [[<Cmd>wincmd h<CR>]], opts) -- Navigation Left

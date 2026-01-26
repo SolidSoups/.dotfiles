@@ -7,15 +7,34 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = "*.md",
+-- Rotate LSP log if it gets too big (check on startup)
+vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Rotate LSP log if too large',
+  once = true,
   callback = function()
-    vim.cmd([[
-      setlocal wrapmargin=10
-      setlocal formatoptions+=t
-      setlocal linebreak
-      setlocal wrap
-    ]])
+    local log_file = vim.fn.stdpath('state') .. '/lsp.log'
+    local max_size = 10 * 1024 * 1024 -- 10MB
+    local stat = vim.loop.fs_stat(log_file)
+    if stat and stat.size > max_size then
+      vim.loop.fs_rename(log_file, log_file .. '.old')
+      vim.fn.writefile({}, log_file)
+    end
+  end,
+})
+
+-- Clear old clangd index cache periodically (prevent corruption)
+vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Clear old clangd cache',
+  once = true,
+  callback = function()
+    vim.defer_fn(function()
+      local cache_dir = vim.fn.getcwd() .. '/.cache/clangd'
+      local stat = vim.loop.fs_stat(cache_dir)
+      -- Clear if cache is older than 7 days
+      if stat and (os.time() - stat.mtime.sec > 7 * 24 * 60 * 60) then
+        vim.fn.delete(cache_dir, 'rf')
+      end
+    end, 1000) -- Delay 1s to not slow down startup
   end,
 })
 
@@ -47,5 +66,47 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
     -- Disable treesitter features that might be slow
     vim.bo[args.buf].syntax = 'on'  -- Use basic syntax instead
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function()
+    vim.keymap.set('n', 'dd', function()
+    local qf = vim.fn.getqflist()
+    local line = vim.fn.line('.')
+    table.remove(qf, line)
+    vim.fn.setqflist(qf, 'r')
+    vim.cmd('cc ' .. math.min(line, #qf))
+    end, { buffer = true })
+  end,
+})
+
+-- Loader for all filetypes in the filetypes/ directory
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(args)
+    local filetype = args.match
+    local ok, config = pcall(require, "elias.config.filetypes." .. filetype)
+
+    if ok and type(config) == 'table' then
+      -- Apply buffer-local options
+      if config.options then
+        for opt, value in pairs(config.options) do
+          vim.opt_local[opt] = value;
+        end
+      end
+
+      -- Set buffer-local keymaps
+      if config.keymaps then
+        for _, map in ipairs(config.keymaps) do
+          vim.keymap.set(map[1], map[2], map[3], vim.tbl_extend("force", map[4] or {}, { buffer = args.buf }))
+        end
+      end
+
+      -- call callback function if it exists
+      if config.callback then
+        pcall(config.callback)
+      end
+    end
   end,
 })

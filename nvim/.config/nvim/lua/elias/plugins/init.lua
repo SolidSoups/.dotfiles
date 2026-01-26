@@ -5,6 +5,11 @@ return {
         config = true,
     },
     {
+        'windwp/nvim-ts-autotag',
+        event = "InsertEnter",
+        config = true,
+    },
+    {
         "justinmk/vim-sneak",
     },
     {

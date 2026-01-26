@@ -12,7 +12,7 @@ if [[ $# -eq 1 ]]; then
 else
   selected=$(find "${DIRS[@]}" -maxdepth 1 -type d  \
     | sed  "s|^$HOME/||" \
-    | sk --margin 10% --color="bw")
+    | fzf --margin 10% --color="bw")
   [[ $selected ]] && selected="$HOME/$selected"
 fi
 

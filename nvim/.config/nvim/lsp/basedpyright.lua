@@ -22,6 +22,11 @@ end
 return {
   cmd = { 'basedpyright-langserver', '--stdio' },
   filetypes = { 'python' },
+  capabilities = {
+    general = {
+      positionEncodings = { 'utf-16', 'utf-32', 'utf-8' },
+    },
+  },
   root_markers = {
     'pyproject.toml',
     'setup.py',
@@ -37,6 +42,17 @@ return {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
+        typeCheckingMode = 'basic', -- 'off', 'basic', 'standard', 'strict'
+        -- Disable overly verbose warnings
+        diagnosticSeverityOverrides = {
+          reportAny = 'none',
+          reportUnknownMemberType = 'none',
+          reportUnknownArgumentType = 'none',
+          reportUnknownVariableType = 'none',
+          reportUnknownParameterType = 'none',
+          reportMissingTypeStubs = 'none',
+          reportUnknownLambdaType = 'none',
+        },
       },
     },
   },
