@@ -49,6 +49,19 @@ vim.api.nvim_create_autocmd({"DirChanged", "VimEnter"}, {
   callback = load_project_config,
 })
 
+-- Better indentation for JS/TS files with template strings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+  callback = function()
+    vim.bo.cindent = true
+    vim.bo.cinoptions = "L0,l1,(0,Ws,J1"
+    vim.bo.indentkeys = "0{,0},0),0],!^F,o,O,e,*<Return>"
+
+    -- Use custom indent expression for better template string handling
+    vim.bo.indentexpr = "v:lua.require('elias.utils.indent').get_indent()"
+  end,
+})
+
 -- Disable heavy features for temporary files (like Claude Code prompt editing)
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "/tmp/*", "/private/tmp/*", "/var/folders/*" },

@@ -87,6 +87,10 @@ return {
     end,
   },
   on_attach = function(client, bufnr)
+    -- Disable formatting, use prettier instead
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+
     -- ts_ls provides `source.*` code actions that apply to the whole file. These only appear in
     -- `vim.lsp.buf.code_action()` if specified in `context.only`.
     vim.api.nvim_buf_create_user_command(bufnr, 'LspTypescriptSourceAction', function()

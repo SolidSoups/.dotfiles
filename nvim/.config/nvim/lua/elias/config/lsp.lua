@@ -36,19 +36,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       })
     end
 
-    -- formatting
-    -- Always set up formatting keymap, prefer conform.nvim if available
-    vim.keymap.set("n", "<leader>lf", function()
-      local ok, conform = pcall(require, "conform")
-      if ok then
-        conform.format({ bufnr = ev.buf, lsp_fallback = true })
-      elseif client:supports_method('textDocument/formatting') then
-        vim.lsp.buf.format({ bufnr = ev.buf })
-      end
-    end, {
-      buffer = ev.buf,
-      desc = "Format buffer",
-    })
+    -- formatting (handled by conform.nvim)
+    -- Formatting keymap is set globally in keymap.lua
 
     -- code actions
     if client:supports_method('textDocument/codeAction') then
@@ -221,12 +210,30 @@ vim.diagnostic.config({
   float = {
     focusable = false,
     style = "minimal",
-    border = "rounded",
+    border = "single",
     source = "always",
     header = "",
     prefix = "",
   }
 })
+
+-- LSP Hover configuration with visible border
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "single",
+})
+
+-- Set float border colors after colorscheme loads
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#888888", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e1e1e" })
+  end,
+})
+
+-- Also set them immediately
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#888888", bg = "NONE" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e1e1e" })
 
 -- util
 

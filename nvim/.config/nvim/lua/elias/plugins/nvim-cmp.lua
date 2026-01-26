@@ -7,8 +7,7 @@ return {
     'hrsh7th/cmp-path',          -- Filesystem paths source
     'hrsh7th/cmp-cmdline',       -- Command-line completion
     'hrsh7th/cmp-nvim-lsp-signature-help', -- Signature help
-    'L3MON4D3/LuaSnip',          -- Snippet engine (required)
-    'saadparwaiz1/cmp_luasnip',  -- Snippet source
+    -- Removed cmp_luasnip temporarily to debug
   },
   config = function()
     require("elias.plugins.config.nvim-cmp")
