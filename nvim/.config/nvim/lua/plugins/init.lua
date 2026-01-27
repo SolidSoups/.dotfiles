@@ -1,9 +1,12 @@
 return {
+  -- automatically add pairs of brackets, braces, tags and parenthesis
 	{
 		'windwp/nvim-autopairs',
 		event = "InsertEnter",
 		config = true
 	},
+
+  -- add nice icons to nvim
 	{
 		'nvim-tree/nvim-web-devicons',
 		opts = {},
@@ -69,5 +72,15 @@ return {
 			 };
 			}
 		end,
-	}
+	},
+
+  -- surround functionality
+  {
+    'kylechui/nvim-surround',
+    version = "^3.0.0", -- used for stability
+    event = "VeryLazy",
+    config = function()
+      require'nvim-surround'.setup({})
+    end,
+  }
 }
