@@ -20,6 +20,8 @@ vim.undofile = true
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
 
@@ -27,3 +29,5 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes" -- display lsp and git status in column
 
 vim.opt.updatetime = 50
+
+vim.opt.foldlevel = 99
