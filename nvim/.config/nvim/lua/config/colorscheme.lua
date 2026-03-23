@@ -2,6 +2,7 @@ require("vague").setup({
 	transparent = true,
 })
 
+vim.g.sonokai_transparent_background = 1
 vim.cmd("colorscheme sonokai")
 
 -- Make split seperators more visible with transparency
