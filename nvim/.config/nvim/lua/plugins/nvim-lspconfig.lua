@@ -32,12 +32,8 @@ return {
 		})
 
 		-- Clangd config
-		-- vim.lsp.config("clangd", {
-		-- 	on_attach = function(client, buffer)
-		-- 		if client.supports_method("textDocument/inlayHints") then
-		-- 			vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
-		-- 		end
-		-- 	end,
-		-- })
+		vim.lsp.config("clangd", {
+			cmd = { "clangd", "--completion-style=bundled", "--limit-results=30" },
+		})
 	end,
 }
