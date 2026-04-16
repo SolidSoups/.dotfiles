@@ -1,9 +1,7 @@
 return {
-	"echasnovski/mini.completion",
+	"nvim-mini/mini.nvim",
 	version = false,
-	event = "InsertEnter",
 	config = function()
-		-- Setup basic shit
 		require("mini.completion").setup({
 			delay = { completion = 200, info = 400, signature = 100 },
 			lsp_completion = {
@@ -15,12 +13,14 @@ return {
 				signature = { border = "single" },
 			},
 		})
+		require("mini.pairs").setup()
 
 		-- DO NOT TRIGGER IN TELESCOPE BUFFER
 		vim.api.nvim_create_autocmd("BufEnter", {
 			callback = function()
 				if vim.bo.buftype == "prompt" then
 					vim.b.minicompletion_disable = true
+					vim.b.minipairs_disable = true
 				end
 			end,
 		})

@@ -19,7 +19,7 @@ return {
 		vim.lsp.config("lua_ls", {
 			settings = {
 				Lua = {
-					diagnostic = {
+					diagnostics = {
 						globals = { "vim" },
 					},
 					workspace = {
@@ -33,7 +33,16 @@ return {
 
 		-- Clangd config
 		vim.lsp.config("clangd", {
-			cmd = { "clangd", "--completion-style=bundled", "--limit-results=30" },
+			cmd = { "clangd", "--completion-style=bundled", "--limit-results=30", "--offset-encoding=utf-16" },
 		})
+
+		vim.api.nvim_create_user_command("LspRestart", function()
+			vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
+			vim.cmd.edit()
+		end, {})
+
+		vim.api.nvim_create_user_command("LspInfo", function()
+			vim.cmd("checkhealth vim.lsp")
+		end, {})
 	end,
 }

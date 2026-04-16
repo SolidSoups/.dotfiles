@@ -17,7 +17,6 @@ return {
 			"css",
 			"tsx",
 			"gdscript",
-			"godot_resources",
 			"gdshader",
 		}
 		require("nvim-treesitter").install(parsers)
